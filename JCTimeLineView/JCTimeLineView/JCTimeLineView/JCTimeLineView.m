@@ -319,6 +319,11 @@ typedef NS_ENUM(NSInteger, JCTimeLineWidthType) {
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     if (self.isNeedScrollData) {
         self.currentSec = scrollView.contentOffset.x / (self.contentViewWidth - self.width) * 86400;
+        if (self.currentSec <= 0) {
+            self.currentSec = 0;
+        }else if(self.currentSec >= 86400){
+            self.currentSec = 86400;
+        }
         self.timeLabel.text = [NSString stringWithFormat:@"%02ld:%02ld:%02ld",self.currentSec/3600,self.currentSec%3600/60,self.currentSec%3600%60];
         if (self.delegate &&
             [self.delegate respondsToSelector:@selector(timeLine:scrollToTime:timeSecValue:)]) {
